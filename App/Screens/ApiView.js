@@ -4,7 +4,6 @@ import styles from './ApiStyles';
 const ApiView = props => {
   const {
     getRandom,
-    fromAxios,
     axiosData,
     renderItem,
     FlatListItemSeparator,
@@ -23,20 +22,18 @@ const ApiView = props => {
         <Button title={'Get Random Number'} onPress={getRandom} color="green" />
       </View>
 
-      {fromAxios && (
-        <FlatList
-          data={axiosData}
-          ItemSeparatorComponent={FlatListItemSeparator}
-          renderItem={item => renderItem(item)}
-          keyExtractor={item => item.random.toString()}
-        />
-      )}
-
-      {loading && (
+      {loading ? (
         <View style={styles.loader}>
           <ActivityIndicator size="large" color="#0c9" />
           <Text style={{fontSize: 16, color: 'red'}}>Loading Data...</Text>
         </View>
+      ) : (
+        <FlatList
+          data={axiosData}
+          ItemSeparatorComponent={FlatListItemSeparator}
+          renderItem={item => renderItem(item.random)}
+          keyExtractor={item => item.toString()}
+        />
       )}
     </View>
   );
