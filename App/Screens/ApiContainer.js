@@ -8,7 +8,6 @@ class ApiContainer extends Component {
     super(props);
     this.state = {
       loading: false,
-      fromAxios: false,
       dataSource: [],
       axiosData: null,
       prevNumbers: [],
@@ -19,14 +18,14 @@ class ApiContainer extends Component {
       loading: true,
     });
     axios
-      .get('https://csrng.net/csrng/csrng.php?min=1&max=1000')
+      .get(
+        'https://cors-anywhere.herokuapp.com/https://csrng.net/csrng/csrng.php?min=1&max=1000',
+      )
       .then(response => {
-        console.log('getting random data', response.random);
-
         setTimeout(() => {
           this.setState({
             loading: false,
-            axiosData: response.random,
+            axiosData: response.data[0],
           });
         }, 2000);
       })
@@ -48,19 +47,18 @@ class ApiContainer extends Component {
   renderItem = data => {
     return (
       <TouchableOpacity style={styles.list}>
-        <Text style={styles.lightText}>{data.random}</Text>
+        <Text style={styles.lightText}>{data}</Text>
       </TouchableOpacity>
     );
   };
 
   render() {
-    const {dataSource, fromAxios, loading, axiosData} = this.state;
+    const {dataSource, loading, axiosData} = this.state;
     return (
       <ApiView
         getRandom={this.getRandom}
         dataSource={dataSource}
         loading={loading}
-        fromAxios={fromAxios}
         axiosData={axiosData}
         FlatListSeparator={this.FlatListSeparator}
         renderItem={this.renderItem}
