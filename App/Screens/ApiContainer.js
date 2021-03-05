@@ -1,33 +1,30 @@
 import React, {Component} from 'react';
 import ApiView from './ApiView';
 import axios from 'axios';
-import styles from './ApiStyles';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View} from 'react-native';
+
 class ApiContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       loading: false,
       dataSource: [],
-      axiosData: null,
+      axiosData: [],
       prevNumbers: [],
     };
   }
+
   getRandom = () => {
     this.setState({
       loading: true,
     });
     axios
-      .get(
-        'https://cors-anywhere.herokuapp.com/https://csrng.net/csrng/csrng.php?min=1&max=1000',
-      )
+      .get('https://csrng.net/csrng/csrng.php?min=1&max=1000')
       .then(response => {
-        setTimeout(() => {
-          this.setState({
-            loading: false,
-            axiosData: response.data[0],
-          });
-        }, 2000);
+        response.data.map(newRes => {
+          let randomNumber = this.state.axiosData.concat(newRes.random);
+          this.setState({loading: false, axiosData: randomNumber});
+        });
       })
       .catch(error => {
         console.log(error);
@@ -42,13 +39,6 @@ class ApiContainer extends Component {
           backgroundColor: 'rgba(0,0,0,0.5)',
         }}
       />
-    );
-  };
-  renderItem = data => {
-    return (
-      <TouchableOpacity style={styles.list}>
-        <Text style={styles.lightText}>{data}</Text>
-      </TouchableOpacity>
     );
   };
 
