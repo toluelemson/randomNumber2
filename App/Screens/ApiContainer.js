@@ -6,10 +6,14 @@ import {View} from 'react-native';
 class ApiContainer extends Component {
   constructor(props) {
     super(props);
+
+    const storedRandomNumber = JSON.parse(
+      window.localStorage.getItem('randomNumber'),
+    );
     this.state = {
       loading: false,
       dataSource: [],
-      axiosData: [],
+      axiosData: !storedRandomNumber && [],
       prevNumbers: [],
     };
   }
@@ -23,7 +27,15 @@ class ApiContainer extends Component {
       .then(response => {
         response.data.map(newRes => {
           let randomNumber = this.state.axiosData.concat(newRes.random);
-          this.setState({loading: false, axiosData: randomNumber});
+
+          window.localStorage.setItem(
+            'randomNumber',
+            JSON.stringify(randomNumber),
+          );
+          this.setState({
+            loading: false,
+            axiosData: randomNumber,
+          });
         });
       })
       .catch(error => {

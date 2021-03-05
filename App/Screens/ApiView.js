@@ -11,7 +11,6 @@ import {
 import styles from './ApiStyles';
 const ApiView = props => {
   const {getRandom, axiosData, FlatListItemSeparator, loading} = props;
-  //   const people = [{name: 'shaun', key: '1'}, {name: 'yahh', key: '2'}];
   return (
     <View style={styles.parentContainer}>
       <View>
