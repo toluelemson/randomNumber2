@@ -16,14 +16,13 @@ const styles = {
   },
   loader: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: '#fff',
   },
   list: {
-    paddingVertical: 4,
-    margin: 5,
-    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 };
 export default styles;
